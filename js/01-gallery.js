@@ -2,47 +2,39 @@ import { galleryItems } from './gallery-items.js';
 // Change code below this line
 const ulEl = document.querySelector('.gallery');
 
-console.log(galleryItems);
+
 
 function createGalleryElement(items) {
     let galleryLi = document.createElement('li');
     galleryLi.classList.add('gallery__item');
     
     let galleryElements = items.map(item => {
-        let itemLink = document.createElement('a');
-        itemLink.classList.add('gallery__link');
-        itemLink.href = item.original; 
-
-        let imgEl = document.createElement('img');
-        imgEl.classList.add('gallery__image');
-
-        imgEl.dataset.source = item.original;
-        imgEl.src = item.preview;
-        imgEl.alt = item.description;
-        itemLink.appendChild(imgEl);
-
-        return itemLink;
+      return `<li class="gallery__item">
+                  <a class="gallery__link" href="${item.original}">
+                    <img
+                      class="gallery__image"
+                      src="${item.preview}"
+                      data-source="${item.original}"
+                      alt="${item.description}"
+                    />
+                  </a>
+                </li>`;
     });
 
-    console.log(galleryElements);
-    galleryLi.append(...galleryElements)
-    ulEl.append(galleryLi);
+  
+  ulEl.innerHTML = galleryElements.join('');
 
-
-    return ulEl;
 }
-
 
 function onGalleryItemClick(event) {
     event.preventDefault();
     let clickedItemLi = event.target.closest('.gallery__item');
-    console.log(clickedItemLi);
     if (!clickedItemLi) {
         return;
     }
     
   const instance = basicLightbox.create(`
-    <div class="modal"><img src="${event.target.dataset.source}" >
+    <div class="modal"><img src="${event.target.dataset.source}" width="800" height="600">
     </div>
 `)
 
